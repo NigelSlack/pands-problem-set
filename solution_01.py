@@ -16,6 +16,7 @@
 # 31/01/2019 NS Initial
 # 07/02/2019 NS Include more comments
 # 13/02/2019 NS Amend blank line printing, references to include URL, and allow runtime arguments
+# 13/02/2019 NS Insert/correct 'end-if' comments
 #-----------------------------------------------------------------------------------------------#
 
 # Define a help text function, to be used if the user inputs 'help'
@@ -39,6 +40,7 @@ if len(sys.argv)-1:
     helptext()
   else:
     print(" \nNo run time arguments required")
+  # end-if  
 # end-if
         
 i = False
@@ -65,8 +67,8 @@ while (not i):
       else:       
         print(" \nInput must be a positive integer")
         print(i)
+      # end-if  
       i = False
-      # end-if
     # end-if    
 # end-while    
 

@@ -1,13 +1,12 @@
 ﻿#---------------------------------------------------------------------------------------------#
-# Program      : solution_04.py
+# Program      : solution_05.py
 # Author       : Nigel Slack
 # Language     : python
 #
 # Function     : Accept a positive integer input from the user.  
-#                Iterate from this value : If even, i(user input)=i/2. 
-#                If odd i=(i*3)+1. Until i=1
+#                Tell the user if it is a prime
 #
-# Syntax       : python solution_04.py
+# Syntax       : python solution_05.py
 #
 # Dependencies : None
 # Arguments    : 'Help' can be accepted as a run time argument
@@ -15,8 +14,12 @@
 #
 # Versions     :
 # 13/02/2019 NS Initial
-# 13/02/2019 NS Correct 'end-if' comments
+# 
 #-----------------------------------------------------------------------------------------------#
+
+# Use the square root of the input number when checking if the input is a prime
+# Import this function from the 'math' module
+import math
 
 # Define a help text function, to be used if the user inputs 'help'
 # This is called with no arguments
@@ -26,13 +29,34 @@ def helptext():
 
 # Surround help text with blank lines for readability - 
 # ref https://pythonprogramminglanguage.com/text-output/
-   print(" \nThis code accepts a positive integer input by the user")
-   print("It performs the following operations on the input number : ")
-   print("If the number is even it divides by two to give the next value.")
-   print("If the number is odd it multiplies by 3 and adds one.")
-   print("The result is output at each step until the value '1' is reached.")
-   print("Syntax : python solution_04.py")
+   print(" \nThis code accepts a positive integer input by the user and determines ")
+   print("if it is a prime")
+   print("Syntax : python solution_05.py")
    return;  
+   
+def is_prime(n1):
+# Convert the input to an integer
+  n = int(n1)
+# 2 is a prime. No even number (residual = 0 on division by 2) is prime and nor 
+# is 1
+  if n == 2:
+    return True
+  # end-if    
+  if n % 2 == 0 or n <= 1:
+    return False
+  # end-if    
+
+# If there is no whole number divisor from 3 upto the square root of the number
+# (check upto the integer part of the square root + 1), then the number is a prime.
+# If n = ab where n,a,b are positive integers and 2 <= a,b <= n-1, then set a<=b.
+# a.a is then <= n, therefore at least one of the factors is <= square root n
+  sqr = int(math.sqrt(n)) + 1   
+  for divisor in range(3, sqr, 2):   
+    if n % divisor == 0:
+      return False
+    # end-if
+  # end-for        
+  return True   
    
 # Use the python 'sys' module to check for run time arguments. 
 # If the user input 'help' output help text, otherwise tell them no arguments are required.
@@ -75,32 +99,12 @@ while (not i):
     # end-if    
 # end-while    
 
-# Convert 'i' to an integer
-# ref https://docs.python.org/2/library/functions.html#int
-i = int(i)
 
-# Initialise the output variable to the user input value
-ou = i
-
-while (i!= 1):
-# Use the modulo operator to check if 'i' is even. No remainder means it is,
-# so divide by 2, otherwise *3 +1
-# ref http://interactivepython.org/runestone/static/StudentCSP/CSPTurtleDecisions/oddEven.html
-  if not (i%2):
-    i = i/2
-  else:
-    i = (i*3)+1
-  # end-if
-# Append the value of 'i' to the output variable 'ou' after each step
-  ou = ou,int(i) 
-# end-while  
-  
-# Remove brackets and commas from the output (put in by the append)
-# ref https://docs.python.org/2/library/string.html
-ou = str(ou).replace("(","")
-ou = str(ou).replace(")","")
-ou = ou.replace(',','')
-print(ou)
+if is_prime(i1):
+  print(i1, "is a prime")
+else:
+  print(i1, "is not a prime")
+# end-if
 print(" ")
-
-# end-program
+        
+# end-program  
