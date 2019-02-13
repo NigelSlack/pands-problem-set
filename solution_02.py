@@ -43,5 +43,7 @@ if time.strftime("%a")[0] == "T":
 else:
 # Tell the user the day name doesn't start with a 'T'
   print(" \nNo, today does not begin with a T\n ")
-# end-if      
+# end-if  
+
+# end-program        
      

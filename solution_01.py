@@ -1,4 +1,4 @@
-﻿#-------------------------------------------------------------------------------#
+﻿#---------------------------------------------------------------------------------------------#
 # Program      : solution_01.py
 # Author       : Nigel Slack
 # Language     : python
@@ -15,8 +15,8 @@
 # Versions     :
 # 31/01/2019 NS Initial
 # 07/02/2019 NS Include more comments
-# 13/02/2019 NS Amend blank line printing, and references to include URL
-#-------------------------------------------------------------------------------#
+# 13/02/2019 NS Amend blank line printing, references to include URL, and allow runtime arguments
+#-----------------------------------------------------------------------------------------------#
 
 # Define a help text function, to be used if the user inputs 'help'
 # This is called with no arguments
