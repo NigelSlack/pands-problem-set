@@ -9,36 +9,52 @@
 # Syntax       : python solution_01.py
 #
 # Dependencies : None
+# Arguments    : 'Help' can be accepted as a run time argument
+#                None
 #
 # Versions     :
 # 31/01/2019 NS Initial
 # 07/02/2019 NS Include more comments
+# 13/02/2019 NS Amend blank line printing, and references to include URL
 #-------------------------------------------------------------------------------#
 
-# Output help text. This is called with no arguments, by the user entering 'help'
-# Afterwards, return to the main processing.
-# Ref: datacamp.com 'How to define a function'
+# Define a help text function, to be used if the user inputs 'help'
+# This is called with no arguments
+# Afterwards, return to main processing.
+# ref: https://www.datacamp.com/community/tutorials/functions-python-tutorial
 def helptext():
-   print(" ")
-   print("This code outputs the sum of all numbers between one and a positive integer input by the user")
-   print("Syntax : python solution_01.py")
-   print(" ") 
-   return;  
 
+# Surround help text with blank lines for readability - 
+# ref https://pythonprogramminglanguage.com/text-output/
+   print(" \nThis code outputs the sum of all numbers between one and a positive integer input by the user")
+   print("Syntax : python solution_01.py")
+   return;  
+   
+# Use the python 'sys' module to check for run time arguments. 
+# If the user input 'help' output help text, otherwise tell them no arguments are required.
+# ref https://stackabuse.com/command-line-arguments-in-python/
+import sys
+if len(sys.argv)-1:
+  if sys.argv[1].upper() == "HELP":   
+    helptext()
+  else:
+    print(" \nNo run time arguments required")
+# end-if
+        
 i = False
 
 # Get input from user until a positive integer is entered
 # If the user enters 'help', output help text. For any other input that is not a positive
 # integer display an error message and continue.
 while (not i):
-    i = input("Please enter a positive integer ('Help' for help text) : ") 
+    i = input(" \nPlease enter a positive integer ('Help' for help text) : ") 
 # Check for numeric input.
-# Ref: pynative.com - check if user input is a number or string
+# ref: https://pynative.com/python-check-user-input-is-number-or-string/
     if i.isdigit():
       i1 = int(i) 
 # Make sure it's in integer form and is >= 1
       if (i1 < 1):   
-        print(" ","Input integer must be positive"," ",sep='\n') 
+        print(" \nInput integer must be positive") 
         i = False
       # end-if   
     else:
@@ -47,8 +63,8 @@ while (not i):
       if (i.upper() == "HELP"):
         helptext()
       else:       
-        print(" ","Input must be a positive integer",sep='\n')
-        print(i," ",sep='\n')
+        print(" \nInput must be a positive integer")
+        print(i)
       i = False
       # end-if
     # end-if    
@@ -62,8 +78,7 @@ while (i1):
 # end-while  
   
 # Output value to terminal
-print(" ")
-print("Sum =",i2)
+print(" \nSum =",i2)
 print(" ")
 
 # end-program
