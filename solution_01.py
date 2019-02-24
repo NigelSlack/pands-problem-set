@@ -8,79 +8,59 @@
 #
 # Syntax       : python solution_01.py
 #
-# Dependencies : None
+# Dependencies : System 'sys' module - proc runtime args
+#                User 'get_integer_input' - get user input of +ve int 
 # Arguments    : 'Help' can be accepted as a run time argument
 #                None
 #
-# Versions     :
+# Versions :
 # 31/01/2019 NS Initial
 # 07/02/2019 NS Include more comments
 # 13/02/2019 NS Amend blank line printing, references to include URL, and allow runtime arguments
 # 13/02/2019 NS Insert/correct 'end-if' comments
+# 23/02/2019 NS Put user input in loop, until user terminates with Carriage Return
+#               Get user input from external module 'get_positive_int_input'
 #-----------------------------------------------------------------------------------------------#
 
-# Define a help text function, to be used if the user inputs 'help'
-# This is called with no arguments
-# Afterwards, return to main processing.
-# ref: https://www.datacamp.com/community/tutorials/functions-python-tutorial
-def helptext():
+# Import required modules
+import sys
+import get_integer_input
 
-# Surround help text with blank lines for readability - 
-# ref https://pythonprogramminglanguage.com/text-output/
-   print(" \nThis code outputs the sum of all numbers between one and a positive integer input by the user")
-   print("Syntax : python solution_01.py")
-   return;  
-   
+# Define help text for this program as multiline string, with newline characters
+# ref https://www.python-course.eu/python3_passing_arguments.php
+# ref https://stackoverflow.com/questions/11497376/how-would-i-specify-a-new-line-in-python
+hlptext = """\nThis code outputs the sum of all numbers between one and a positive integer input by the user
+             \nSyntax : python solution_01.py [help]"""
+
 # Use the python 'sys' module to check for run time arguments. 
 # If the user input 'help' output help text, otherwise tell them no arguments are required.
 # ref https://stackabuse.com/command-line-arguments-in-python/
-import sys
 if len(sys.argv)-1:
   if sys.argv[1].upper() == "HELP":   
-    helptext()
+    print(hlptext)
   else:
     print(" \nNo run time arguments required")
   # end-if  
 # end-if
         
-i = False
+# Keep asking the user to enter positive integers, or help, until they terminate
+# the process by just entering Carriage Return (in get_integer_input).
+while True:
 
-# Get input from user until a positive integer is entered
-# If the user enters 'help', output help text. For any other input that is not a positive
-# integer display an error message and continue.
-while (not i):
-    i = input(" \nPlease enter a positive integer ('Help' for help text) : ") 
-# Check for numeric input.
-# ref: https://pynative.com/python-check-user-input-is-number-or-string/
-    if i.isdigit():
-      i1 = int(i) 
-# Make sure it's in integer form and is >= 1
-      if (i1 < 1):   
-        print(" \nInput integer must be positive") 
-        i = False
-      # end-if   
-    else:
-# Output help text if the user entered 'help', otherwise tell them they must enter a
-# positive integer
-      if (i.upper() == "HELP"):
-        helptext()
-      else:       
-        print(" \nInput must be a positive integer")
-        print(i)
-      # end-if  
-      i = False
-    # end-if    
-# end-while    
-
+# Pass the help text, and user prompt, as arguments to get_integer_input. Receive back the integer
+# input by the user. 
+# ref https://www.python-course.eu/python3_functions.php
+  i = get_integer_input.get_int_input(hlptext,"Please enter a positive integer ")
+    
 # Calculate the required value - sum integers from input value down to 1
-i2 = 0
-while (i1):
-  i2=i2+i1
-  i1=i1-1
-# end-while  
+  i2 = 0
+  while (i):
+    i2=i2+i
+    i=i-1
+  # end-while  
   
 # Output value to terminal
-print(" \nSum =",i2)
-print(" ")
-
+  print(" \nSum =",i2)
+  
+# end-while  
 # end-program

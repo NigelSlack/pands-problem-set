@@ -1,0 +1,11 @@
+﻿This is a test input file & there are several lines, some with \/#
+Line 1
+Another line & /\#[]""{} & _
+Yet on more
+And a final line & but is it _ =
+No just joking
+      Start with spaces here
+      
+         and more spaces here /\&_=*&&&
+         
+   Backwards now      

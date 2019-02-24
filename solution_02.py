@@ -7,12 +7,14 @@
 #                Tell the user whether or not it does.
 # Syntax       : python solution_02.py
 #
-# Dependencies : None
+# Dependencies : System 'sys' module  - proc runtime args
+#                System 'time' module - get day name
 # Arguments    : 'Help' can be accepted as a run time argument
 #                None
 #
 # Versions     :
 # 13/02/2019 NS Initial
+# 23/02/2019 NS Include strftime reference
 #-------------------------------------------------------------------------------#
 
 # Import the python 'time' module, so the time related functions within it can be used
@@ -23,12 +25,14 @@ import time
 # If the user input 'help' output help text, otherwise tell them no arguments are required.
 # ref https://stackabuse.com/command-line-arguments-in-python/
 import sys
+
 if len(sys.argv)-1:
   if sys.argv[1].upper() == "HELP":
 # Output a blank line (for easy readability), then the help text  
 # ref https://pythonprogramminglanguage.com/text-output/
     print(" \nThis program tells the user if the current day name begins with the letter 'T'")
     print("The required output is given without a run-time argument")
+    print("Syntax : solution_02.py [help]")
   else:
     print(" \nNo run time arguments required")
   # end-if   
@@ -37,6 +41,7 @@ if len(sys.argv)-1:
 # From the above 'time' reference, time.strftime with the %a directive returns the abreviated
 # weekday name. The first character of this (at offset [0]) provides the required 
 # program output.
+# ref https://docs.python.org/2/library/time.html
 if time.strftime("%a")[0] == "T":
 # Tell the user the day name starts with a 'T'
   print(" \nYes, today begins with a 'T'\n ")

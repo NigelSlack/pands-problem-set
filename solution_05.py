@@ -8,32 +8,28 @@
 #
 # Syntax       : python solution_05.py
 #
-# Dependencies : None
+# Dependencies : System 'sys' module - proc runtime args
+#                System 'math' - to get square root
+#                User 'get_integer_input' - get user input of +ve int 
 # Arguments    : 'Help' can be accepted as a run time argument
 #                None
 #
 # Versions     :
 # 13/02/2019 NS Initial
-# 
-#-----------------------------------------------------------------------------------------------#
+# 23/02/2019 NS Get the user input from get_integer_input, and loop until CR is returned
+#---------------------------------------------------------------------------------------------#
 
-# Use the square root of the input number when checking if the input is a prime
-# Import this function from the 'math' module
+# Import external modules
+import sys
 import math
+import get_integer_input
 
-# Define a help text function, to be used if the user inputs 'help'
-# This is called with no arguments
-# Afterwards, return to main processing.
-# ref: https://www.datacamp.com/community/tutorials/functions-python-tutorial
-def helptext():
-
-# Surround help text with blank lines for readability - 
-# ref https://pythonprogramminglanguage.com/text-output/
-   print(" \nThis code accepts a positive integer input by the user and determines ")
-   print("if it is a prime")
-   print("Syntax : python solution_05.py")
-   return;  
-   
+# Set up multiline help text
+hlptext = \
+"""\n This code accepts a positive integer input by the user and determines 
+ if it is a prime
+ Syntax : python solution_05.py [help]"""
+       
 def is_prime(n1):
 # Convert the input to an integer
   n = int(n1)
@@ -50,6 +46,7 @@ def is_prime(n1):
 # (check upto the integer part of the square root + 1), then the number is a prime.
 # If n = ab where n,a,b are positive integers and 2 <= a,b <= n-1, then set a<=b.
 # a.a is then <= n, therefore at least one of the factors is <= square root n
+# ref https://stackoverflow.com/questions/18833759/python-prime-number-checker
   sqr = int(math.sqrt(n)) + 1   
   for divisor in range(3, sqr, 2):   
     if n % divisor == 0:
@@ -61,50 +58,23 @@ def is_prime(n1):
 # Use the python 'sys' module to check for run time arguments. 
 # If the user input 'help' output help text, otherwise tell them no arguments are required.
 # ref https://stackabuse.com/command-line-arguments-in-python/
-import sys
 if len(sys.argv)-1:
   if sys.argv[1].upper() == "HELP":   
-    helptext()
+    print(hlptext)
   else:
     print(" \nNo run time arguments required")
   # end-if  
 # end-if
 
-i = False
-
-# Get input from user until a positive integer is entered
-# If the user enters 'help', output help text. For any other input that is not a positive
-# integer display an error message and continue.
-while (not i):
-    i = input(" \nPlease enter a positive integer ('Help' for help text) : ") 
-# Check for numeric input.
-# ref: https://pynative.com/python-check-user-input-is-number-or-string/
-    if i.isdigit():
-      i1 = int(i) 
-# Make sure it's in integer form and is >= 1
-      if (i1 < 1):   
-        print(" \nInput integer must be positive") 
-        i = False
-      # end-if   
-    else:
-# Output help text if the user entered 'help', otherwise tell them they must enter a
-# positive integer
-      if (i.upper() == "HELP"):
-        helptext()
-      else:       
-        print(" \nInput must be a positive integer")
-        print(i)
-      # end-if  
-      i = False
-    # end-if    
-# end-while    
-
-
-if is_prime(i1):
-  print(i1, "is a prime")
-else:
-  print(i1, "is not a prime")
-# end-if
-print(" ")
-        
+# Keep asking the user to enter positive integers, until they enter CR to exit
+# (in get_integer_input). Pass the help text and user prompt to get_integer_input
+# and receive the user response back in 'i'
+while True:
+  i = get_integer_input.get_int_input(hlptext,"Please enter a positive integer ")
+  if is_prime(i):
+    print(i, "is a prime")
+  else:
+    print(i, "is not a prime")
+  # end-if
+# end-while        
 # end-program  
