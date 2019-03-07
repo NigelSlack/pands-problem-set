@@ -19,6 +19,8 @@
 #               are no brackets and commas to get rid of at the end.
 #               If the input contains the Escape Key character, replace with '^',
 #               so that the following character is still printed.
+# 07/03/2019 NS Put check for escape key into own function, and apply it to the first element
+#               in the space separated list (as well as the other elements)
 #-----------------------------------------------------------------------------------------------#
 import sys
 
@@ -34,7 +36,26 @@ def helptext():
    print("element (as defined by a space separator).")
    print("Syntax : python solution_06.py [help]")
    return;  
-   
+
+# Check the input string for the Escape Key character. Set it to '^' if found, otherwise it
+# stops the following character from being printed 
+def check_for_esc_key(ix):
+  ixlen = len(ix)
+  i=0
+  while i < ixlen:
+# ref https://stackoverflow.com/questions/5137238/how-to-detect-escape-keypress-in-python
+    if ix[i] == chr(27):
+      if i == 0:
+        ix = '^' + ix[1:]
+      else:
+# ref https://stackoverflow.com/questions/1228299/change-one-character-in-a-string          
+        ix = ix[:i] + '^' + ix[(i+1):] 
+      # end-if
+    # end-if    
+    i = i+1
+  # end-while  
+  return ix     
+         
 # Use the python 'sys' module to check for run time arguments. 
 # If the user input 'help' output help text, otherwise tell them no arguments are required.
 # ref https://stackabuse.com/command-line-arguments-in-python/
@@ -69,29 +90,12 @@ while True:
   s=" ".join(s.split())
   s=s.split(" ")
   
-  i = len(s[0])
-  
-# Append every second element in the list to the first element
+# Append every second element in the list to the first element, checking each one for the escape
+# key (so that we don't miss characters)
   j=2
-  ou=s[0]
+  ou = check_for_esc_key(s[0])
   while j <= len(s)-1:
-    i = 0
-    ix = s[j]
-# Check the input string for the Escape Key character. Set it to '^' if found, otherwise it
-# stops the following character from being printed    
-    while i < len(s[j]):
-# ref https://stackoverflow.com/questions/5137238/how-to-detect-escape-keypress-in-python
-      if ix[i] == chr(27):
-        if i == 0:
-          ix = '^' + ix[1:]
-        else:
-# ref https://stackoverflow.com/questions/1228299/change-one-character-in-a-string          
-          ix = ix[:i] + '^' + ix[(i+1):] 
-        # end-if
-      # end-if    
-      i = i+1
-    # end-while  
-        
+    ix = check_for_esc_key(s[j])
     ou = ou + " " + ix
     j=j+2
   # end-while  
