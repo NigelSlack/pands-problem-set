@@ -18,7 +18,14 @@
 # 24/02/2019 NS Allow for exponential inputs. Also deal with 'NaN' and 'Infinity'
 #-----------------------------------------------------------------------------------------------#
 import sys
+import time
+
+# Check how long it takes to load 'math' module - for comparing two ways of getting the 
+# square root
+# ref https://docs.python.org/2/library/time.html
+tload=time.time()
 import math
+tload=(time.time()-tload)
 
 # Define a help text function, to be used if the user inputs 'help'
 # This is called with no arguments
@@ -32,7 +39,9 @@ def helptext():
    print("Exponents may be used, eg 2.345e5 or 1.764e-10, but for larger values small floating point")
    print("errors may occur. The number of decimal places output will be the same as for the input,")
    print("except for exact square roots when fewer places may be displayed, eg an input of 3.0 will")
-   print("give one decimal place, whereas 3.000 will yield 3 places.")
+   print("give one decimal place, whereas 3.000 will yield 3 places. The square root is calculated")
+   print("using 2 methods - an external library call 'math.sqrt', and the Newton iteration, with the")
+   print("timings given for both.")
    print("Syntax : python solution_07.py [help]")
    return;  
    
@@ -162,7 +171,7 @@ def get_user_input():
 while True:
 # Get the user input. The return contains the number input; 'dp' for if an integer
 # is input and the square root is an integer (so no decimal place will be output);
-# 'dp2' to otherwise show the number of decimalplaces to output, and an indicator "exp"
+# 'dp2' to otherwise show the number of decimal places to output, and an indicator "exp"
 # for exponent input
   f, dp, dp2, exp = get_user_input()
   if dp > dp2: dp2 = dp
@@ -178,10 +187,67 @@ while True:
     # end-if
   # end-if    
   
+# We'll use two ways of getting the square root - the 'math.sqrt' library call, 
+# and an iteration using the Newton method. In the output we'll show how long each 
+# method took (but we'll just display one output value)
   
+      
 # Get the square root using the 'math' module
 # ref https://docs.python.org/2/library/math.html    
+
+# Find the start time 
+  t1=time.time()
   f2=math.sqrt(f)
+# Check how long this method took. For the first time someone gets a square root
+# whilst running the code, we'll add on how long it took to load the 'math' module.
+  t1=(time.time()-t1)+tload
+  tload = 0
+  
+# Set dpx to the number of decimal places in the input number
+  if dp < 0 or exp:
+    if f2.is_integer(): 
+      dpx= (-1)
+    else:
+      dpx=dp2*(-1) 
+    # end-if   
+  else:
+    dpx=dp*(-1)
+  # end-if
+
+
+# Get the square root using the Newton iteration method   
+# ref https://tour.golang.org/flowcontrol/8 and 
+# Ian McLoughlin GMIT 'Programming and Scripting' lecture week 8 (Newton)
+
+# Get the exponential (power 10) value of the input number. This is used to 
+# get an estimate of the first value to try. The last 3 characters resulting from the 'format'
+# command give the exponent, eg +00, -01.
+# ref https://stackoverflow.com/questions/51502747/python-convert-float-notation-to-power-of-10-scientific-notation
+ 
+# Get the start time of this method
+  t2=time.time() 
+  fx = format(f,'.0e')
+# Get the last 3 characters
+# rf https://stackoverflow.com/questions/7983820/get-the-last-4-characters-of-a-string
+  fx=fx[-3:]
+  fx=int(fx)
+  if fx < 0: fx = fx - 1
+ 
+# Use an initial estimate based on the input value expressed as 'x*(10**2n)'. For 'x' < 10 use 
+# 2 * (10**(n/2)) otherwise use 6 - this is based on the geometric mean of the ranges considered.
+# ref https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
+  if (abs(fx)%2==0): 
+    est = 2*(10**(int(fx/2)))
+  else:
+    est = 6*(10**(int(fx/2)))
+  # end-if  
+  
+# Find the estimate using the Newton method, to the number of decimale places input by the user.
+  while abs((est*est)-f) > (10**dpx):
+    est -= ((est*est)-f)/(2*est)
+# Find how long this method took
+  t2=time.time()-t2
+  
   f5=str(f)
   f6=str(f2)
   exact=False
@@ -211,7 +277,9 @@ while True:
   if exact or (len(f6) < len(f5)):
     print("The square root of",f,"is",f3)
   else:
-    print("The square root of",f,"is approx",f3)
+    print("The square root of",f,"is approx",f3)      
   # end-if
+  print("(Time taken by 'math.sqrt'   - ",t1," seconds)")
+  print("(Time taken by Newton method - ",t2," seconds)")
 # end-while
 # end-program
