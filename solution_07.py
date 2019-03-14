@@ -16,6 +16,8 @@
 # Versions     :
 # 14/02/2019 NS Initial
 # 24/02/2019 NS Allow for exponential inputs. Also deal with 'NaN' and 'Infinity'
+# 14/03/2019 NS Include Newton method for calculating square root, and compare the time taken
+#               for this method to that used by 'math.sqrt'
 #-----------------------------------------------------------------------------------------------#
 import sys
 import time
